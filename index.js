@@ -1,27 +1,53 @@
-let string="";
-let input=document.querySelector("input");
-let buttons=document.querySelectorAll(".btn");
+const inp=document.querySelector(".input-box");
+const addbtn=document.querySelector(".btn");
+const todo=document.querySelector(".todolist");
+let etd=null;
 
-Array.from(buttons).forEach((button) => {
-    button.addEventListener("click",(e)=>{
-        if(e.target.innerHTML == "="){
-            string=eval(string);
-            input.value=string;
-        }
-        else if(e.target.innerHTML=="AC"){
-            string=" ";
-            input.value=string;
-        }
-        else if(e.target.innerHTML =="DEL"){
-            string=string.substring(0,string.length-1);
-            input.value=string;
+addbtn.addEventListener("click",()=>{
+    const inputtext=inp.value.trim();
+    if(inputtext===""){
+        alert("write something to add");
+    }
+    else{
+
+        if(addbtn.value==="Edit"){
+            etd.target.previousElementSibling.innerHTML=inputtext;
+            addbtn.value="Add";
+            inp.value="";
         }
         else{
-            console.log(e.target);
-            string=string+ e.target.innerHTML;
-            input.value=string;
-        }
+            const li=document.createElement("li");
+        const para=document.createElement("p");
+        para.innerHTML=inputtext;
+        li.appendChild(para);
+        todo.appendChild(li);
+
+        
+        const edit=document.createElement("button");
+        edit.innerHTML="Edit";
+        edit.classList.add("button","green");
+        li.appendChild(edit);
+
+        const del=document.createElement("button");
+        del.innerHTML="Remove"
+        del.classList.add("button","red");
+        li.appendChild(del);
+        
+
+        inp.value="";
     }
-    )
+}
+        
+   
+})
+todo.addEventListener("click",(e)=>{
+    if(e.target.innerHTML==="Remove"){
+        todo.removeChild(e.target.parentElement);
     }
-);
+    else if(e.target.innerHTML==="Edit"){
+        inp.value=e.target.previousElementSibling.innerHTML;
+        inp.focus();
+        addbtn.value="Edit";
+        etd=e;
+    }
+})
